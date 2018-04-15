@@ -16,7 +16,9 @@ module.exports = function (sequelize, DataTypes) {
 
 //INTERNAL
 function _associate(models) {
-    models.Order.hasMany(models.Sandwich, {
-        as: 'sandwich'
+    models.Order.belongsToMany(models.Product, {
+        as: 'product',
+        through: 'order_product',
+        foreignKey: 'order_id'
     });
 }

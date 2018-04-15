@@ -36,8 +36,6 @@ Object.keys(ModelIndex)
         }
     });
 
-
-
 ModelIndex.sequelize = sequelize;
 ModelIndex.Sequelize = Sequelize;
 ModelIndex.openDatabase = function() {

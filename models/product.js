@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    const Sandwich = sequelize.define('Sandwich', {
+    const Product = sequelize.define('Product', {
         id: {
             type: DataTypes.BIGINT,
             primaryKey: true,
@@ -9,8 +9,16 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
+        style: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         description: {
             type: DataTypes.STRING,
+            allowNull: false
+        },
+        price: {
+            type: DataTypes.DOUBLE,
             allowNull: false
         }
     }, {
@@ -18,11 +26,15 @@ module.exports = function (sequelize, DataTypes) {
         underscored: true,
         freezeTableName: true
     });
-    Sandwich.associate = _associate;
-    return Sandwich;
+    Product.associate = _associate;
+    return Product;
 };
 
 //INTERNAL
 function _associate(models) {
-    models.Sandwich.belongsTo(models.Order);
+    models.Product.belongsToMany(models.Order, {
+        as: 'order',
+        through: 'order_product',
+        foreignKey: 'product_id'
+    });
 }
