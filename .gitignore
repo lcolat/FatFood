@@ -57,3 +57,6 @@ typings/
 # dotenv environment variables file
 .env
 
+# file: ~/.gitignore_global
+.DS_Store
+.idea
