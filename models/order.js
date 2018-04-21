@@ -21,4 +21,9 @@ function _associate(models) {
         through: 'order_product',
         foreignKey: 'order_id'
     });
+    models.Order.belongsToMany(models.Menu, {
+        as: 'menu',
+        through: 'order_menu',
+        foreignKey: 'order_id'
+    })
 }
