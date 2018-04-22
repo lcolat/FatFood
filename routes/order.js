@@ -7,12 +7,12 @@ const orderRouter = express.Router();
 orderRouter.use(bodyParser.json());
 
 orderRouter.post('/', function(req, res) {
-    const name = req.body.name;
-    if(name === undefined){
+    const payment = req.body.payment;
+    if(payment === undefined){
         res.status(400).end();
         return;
     }
-    OrderController.add(name)
+    OrderController.add(payment)
         .then((p) => {
             res.status(201).json(p);
         })
@@ -22,12 +22,13 @@ orderRouter.post('/', function(req, res) {
         });
 });
 
+
 orderRouter.get('/', function (req, res) {
     const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
     const offset = req.query.offset ? parseInt(req.query.offset) : undefined;
     OrderController.getAll(req.query.name, limit, offset)
-        .then((projects) => {
-            res.json(projects);
+        .then((menus) => {
+            res.json(menus);
         })
         .catch((err) => {
             console.error(err);

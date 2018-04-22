@@ -2,11 +2,11 @@ const express = require('express');
 const ModelIndex = require('./models');
 const RouteManager = require('./routes');
 ModelIndex
-    .openDatabase()
-    .then(_startServer)
-    .catch((err) => {
-        console.error(err);
-    });
+.openDatabase()
+.then(_startServer)
+.catch((err) => {
+    console.error(err);
+});
 
 // INTERNAL
 

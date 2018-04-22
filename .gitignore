@@ -60,3 +60,8 @@ typings/
 # file: ~/.gitignore_global
 .DS_Store
 .idea
+
+# WorkBench
+*.mwb
+*.sql
+*.bak

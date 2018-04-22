@@ -12,7 +12,7 @@ ModelIndex.getModel = function (modelName) {
     return this[modelName];
 };
 
-const sequelize = new Sequelize('fat_food', 'root', '', {
+const sequelize = new Sequelize('Fat-Food', 'root', '', {
     host: 'localhost',
     dialect: 'mysql',
     operatorsAliases: Op

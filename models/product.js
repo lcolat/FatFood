@@ -33,7 +33,7 @@ module.exports = function (sequelize, DataTypes) {
 //INTERNAL
 function _associate(models) {
     models.Product.belongsToMany(models.Order, {
-        as: 'order',
+        as: 'orders',
         through: 'order_product',
         foreignKey: 'product_id'
     });
