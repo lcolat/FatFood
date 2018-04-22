@@ -30,6 +30,9 @@ productRouter.get('/', function (req, res) {
     const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
     const offset = req.query.offset ? parseInt(req.query.offset) : undefined;
     ProductController.getAll(req.query.name, limit, offset)
+        .then((products) => {
+            res.json(products);
+        })
         .catch((err) => {
             console.error(err);
             res.status(500).end();

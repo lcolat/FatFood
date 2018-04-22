@@ -27,8 +27,8 @@ orderRouter.get('/', function (req, res) {
     const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
     const offset = req.query.offset ? parseInt(req.query.offset) : undefined;
     OrderController.getAll(req.query.name, limit, offset)
-        .then((menus) => {
-            res.json(menus);
+        .then((orders) => {
+            res.json(orders);
         })
         .catch((err) => {
             console.error(err);
