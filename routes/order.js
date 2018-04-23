@@ -49,4 +49,17 @@ orderRouter.put('/:id/addproduct/:productId', function (req, res) {
         });
 });
 
+orderRouter.put('/:id/addmenu/:menuId', function (req, res) {
+    const id = parseInt(req.params.id);
+    const menuId = parseInt(req.params.menuId);
+    OrderController.addMenu(id, menuId)
+        .then(() => {
+            res.status(204).end();
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).end();
+        });
+});
+
 module.exports = orderRouter;

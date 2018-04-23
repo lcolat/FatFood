@@ -23,6 +23,20 @@ menuRouter.post('/', function(req, res) {
         });
 });
 
+menuRouter.put('/:id/addproduct/:productId', function (req, res) {
+    const id = parseInt(req.params.id);
+    const productId = parseInt(req.params.productId);
+    MenuController.addProduct(id, productId)
+        .then(() => {
+            res.status(204).end();
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).end();
+        });
+});
+
+
 menuRouter.get('/', function (req, res) {
     const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
     const offset = req.query.offset ? parseInt(req.query.offset) : undefined;

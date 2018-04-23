@@ -1,5 +1,6 @@
 const ModelIndex = require('../models');
 const Menu = ModelIndex.Menu;
+const Product = ModelIndex.Product;
 const Op = ModelIndex.Sequelize.Op;
 
 const MenuController = function() { };
@@ -11,9 +12,30 @@ MenuController.add = function(name, price) {
         price: price
     });
 };
+MenuController.addProduct = function(id, productId) {
+    return Menu.find({
+        where: {
+            id:id
+        }
+    }).then((menu) => {
+        return Product.find({
+            where: {
+                id: productId
+            }
+        })
+            .then((product) => {
+                return menu.addProduct(product);
+            })
+    });
+};
 
 MenuController.getAll = function (search, limit, offset) {
-    const options = {};
+    const options = {
+        include: [{
+            model: ModelIndex.Product,
+            as: 'products'
+        }]
+    };
     const where = {};
     if(search !== undefined){
         where.name = {

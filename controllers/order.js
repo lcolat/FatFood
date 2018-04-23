@@ -1,6 +1,7 @@
 const ModelIndex = require('../models');
 const Order = ModelIndex.Order;
 const Product = ModelIndex.Product;
+const Menu = ModelIndex.Menu;
 const Op = ModelIndex.Sequelize.Op;
 
 const OrderController = function() { };
@@ -28,17 +29,33 @@ OrderController.addProduct = function(id, productId) {
     });
 };
 
+OrderController.addMenu = function(id, menuId) {
+    return Order.find({
+        where: {
+            id:id
+        }
+    }).then((order) => {
+        return Menu.find({
+            where: {
+                id: menuId
+            }
+        })
+            .then((menu) => {
+                return order.addMenu(menu);
+            })
+    });
+};
+
 OrderController.getAll = function (search, limit, offset) {
     const options = {
-        // include: [{
-        //     model: ModelIndex.Menu,
-        //     as: 'menus',
-        //     include: [{
-        //         model: ModelIndex.Product,
-        //         as: 'products'
-        //     }]
-        // }],
         include: [{
+            model: ModelIndex.Menu,
+            as: 'menus',
+            include: [{
+                model: ModelIndex.Product,
+                as: 'products'
+            }]
+        },{
             model: ModelIndex.Product,
             as: 'products'
         }]

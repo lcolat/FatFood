@@ -29,9 +29,9 @@ function _associate(models) {
         through: 'menu_product',
         foreignKey: 'menu_id'
     });
-    // models.Menu.belongsToMany(models.Order, {
-    //     as: 'orders',
-    //     through: 'order_menu',
-    //     foreignKey: 'menu_id'
-    // });
+    models.Menu.belongsToMany(models.Order, {
+        as: 'orders',
+        through: 'order_menu',
+        foreignKey: 'menu_id'
+    });
 }
