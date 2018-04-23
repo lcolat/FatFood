@@ -36,4 +36,17 @@ orderRouter.get('/', function (req, res) {
         });
 });
 
+orderRouter.put('/:id/addproduct/:productId', function (req, res) {
+    const id = parseInt(req.params.id);
+    const productId = parseInt(req.params.productId);
+    OrderController.addProduct(id, productId)
+        .then(() => {
+            res.status(204).end();
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).end();
+        });
+});
+
 module.exports = orderRouter;

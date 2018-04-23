@@ -1,5 +1,6 @@
 const ModelIndex = require('../models');
 const Order = ModelIndex.Order;
+const Product = ModelIndex.Product;
 const Op = ModelIndex.Sequelize.Op;
 
 const OrderController = function() { };
@@ -7,6 +8,23 @@ const OrderController = function() { };
 OrderController.add = function(payment) {
     return Order.create({
         payment_method: payment
+    });
+};
+
+OrderController.addProduct = function(id, productId) {
+    return Order.find({
+        where: {
+            id:id
+        }
+    }).then((order) => {
+        return Product.find({
+            where: {
+                id: productId
+            }
+        })
+        .then((product) => {
+            return order.addProduct(product);
+        })
     });
 };
 
