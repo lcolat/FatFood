@@ -37,4 +37,9 @@ function _associate(models) {
         through: 'order_product',
         foreignKey: 'product_id'
     });
+    models.Product.belongsToMany(models.Ingredient, {
+        as: 'ingredients',
+        through: 'product_ingredient',
+        foreignKey: 'product_id'
+    });
 }
