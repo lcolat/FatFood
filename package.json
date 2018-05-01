@@ -9,11 +9,14 @@
   "author": "Loïc Colat, Christopher Malivert, Lippikar Phanchan",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^2.0.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
     "fs": "0.0.1-security",
+    "jsonwebtoken": "^8.2.1",
     "mysql": "^2.15.0",
     "mysql2": "^1.5.3",
+    "npm": "^6.0.0",
     "sequelize": "^4.37.6"
   }
 }
