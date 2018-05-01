@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const passwordHash  = require('password-hash');
 module.exports = function (sequelize, DataTypes) {
     const User = sequelize.define('User', {
         id: {
@@ -10,14 +10,8 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
-        password_digest: {
-            type: DataTypes.STRING,
-            validate: {
-                notEmpty: true
-            }
-        },
         password: {
-            type: DataTypes.VIRTUAL,
+            type: DataTypes.STRING,
             allowNull: false
         }
     },{
@@ -26,31 +20,18 @@ module.exports = function (sequelize, DataTypes) {
         freezeTableName: true,
         instanceMethods: {
             authenticate: function(value) {
-                if (bcrypt.compareSync(value, this.password_digest))
+                if (passwordHash.verify(value, this.password))
                     return this;
                 else
                     return false;
             }
         }
     });
-    let hasSecurePassword = function(user, options, callback) {
-        bcrypt.hash(user.get('password'), 10, function(err, hash) {
-            if (err) return callback(err);
-            user.set('password_digest', hash);
-            return callback(null, options);
-        });
-    };
     User.beforeCreate(function(user, options, callback) {
-        if (user.password)
-            hasSecurePassword(user, options, callback);
-        else
-            return callback(null, options);
+        user.set('password', passwordHash.generate(user.get('password')));
     });
     User.beforeUpdate(function(user, options, callback) {
-        if (user.password)
-            hasSecurePassword(user, options, callback);
-        else
-            return callback(null, options);
+        user.set('password', passwordHash.generate(user.get('password')));
     });
     return User;
 };
