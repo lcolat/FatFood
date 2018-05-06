@@ -32,7 +32,7 @@ userRouter.post('/authenticate', function (req, res) {
     }
     UserController.findOne(login, password)
         .then((user) => {
-            res.status(201).json(user);
+            res.status(204).json(user);
         })
         .catch((err) => {
             console.error(err);

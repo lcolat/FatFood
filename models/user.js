@@ -1,4 +1,4 @@
-const passwordHash  = require('password-hash');
+
 module.exports = function (sequelize, DataTypes) {
     const User = sequelize.define('User', {
         id: {
@@ -14,18 +14,10 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         }
-    },{
+    }, {
         paranoid: true,
         underscored: true,
-        freezeTableName: true,
-        instanceMethods: {
-            authenticate: function(value) {
-                if (passwordHash.verify(value, this.password))
-                    return this;
-                else
-                    return false;
-            }
-        }
+        freezeTableName: true
     });
     User.beforeCreate(function(user, options, callback) {
         user.set('password', passwordHash.generate(user.get('password')));

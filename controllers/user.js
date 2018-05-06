@@ -13,10 +13,11 @@ UserController.add = function(login, password) {
 };
 
 UserController.findOne = function(login, password) {
+    console.log(password);
     const options = {};
     const where = {
-        login: 'login',
-        password: passwordHash.generate('password')
+        login: login,
+        password: passwordHash.generate(password)
     };
     options.where = where;
     return User.findOne(options);
