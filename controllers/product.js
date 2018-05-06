@@ -32,4 +32,13 @@ ProductController.getAll = function (search, limit, offset) {
     return Product.findAll(options);
 };
 
+ProductController.delete = function(productId) {
+    const options = {};
+    const where = {
+        id: productId
+    };
+    options.where = where;
+    return Product.destroy(options);
+};
+
 module.exports = ProductController;

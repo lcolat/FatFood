@@ -39,4 +39,15 @@ productRouter.get('/', function (req, res) {
         });
 });
 
+productRouter.delete('/:id', function (req, res) {
+    const productId = parseInt(req.params.id);
+    ProductController.delete(productId)
+        .then((product) => {
+            res.status(200).json(product.deletedAt);
+        })
+        .catch((err) => {
+            res.status(500).end();
+        });
+});
+
 module.exports = productRouter;
