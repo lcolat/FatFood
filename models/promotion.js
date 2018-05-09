@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    const Menu = sequelize.define('Menu', {
+    const Promotion = sequelize.define('Promotion', {
         id: {
             type: DataTypes.BIGINT,
             primaryKey: true,
@@ -12,30 +12,28 @@ module.exports = function (sequelize, DataTypes) {
         price: {
             type: DataTypes.DOUBLE,
             allowNull: false
+        },
+        date: {
+            type: DataTypes.DATE,
+            allowNull: false
         }
     }, {
         paranoid: true,
         underscored: true,
         freezeTableName: true
     });
-    Menu.associate = _associate;
-    return Menu;
+    Promotion.associate = _associate;
+    return Promotion;
 };
 
 //INTERNAL
 function _associate(models) {
-    models.Menu.belongsToMany(models.Product, {
-        as: 'products',
-        through: 'menu_product',
-        foreignKey: 'menu_id'
-    });
-    models.Menu.belongsToMany(models.Order, {
+    models.Promotion.belongsToMany(models.Menu, {
         as: 'orders',
-        through: 'order_menu',
-        foreignKey: 'menu_id'
+        foreignKey: 'product_id'
     });
-    models.Menu.belongsTo(models.Promotion, {
-        as: 'orders',
-        foreignKey: 'menu_id'
+    models.Promotion.belongsToMany(models.Product, {
+        as: 'ingredients',
+        foreignKey: 'product_id'
     });
 }
