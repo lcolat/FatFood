@@ -30,4 +30,14 @@ IngredientController.getAll = function (search, limit, offset) {
     return Ingredient.findAll(options);
 };
 
+IngredientController.delete = function(ingredientId) {
+    const options = {};
+    const where = {
+        id: ingredientId
+    };
+    options.where = where;
+    return Ingredient.destroy(options);
+};
+
+
 module.exports = IngredientController;

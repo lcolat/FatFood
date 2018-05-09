@@ -76,4 +76,13 @@ OrderController.getAll = function (search, limit, offset) {
     return Order.findAll(options);
 };
 
+OrderController.delete = function(orderId) {
+    const options = {};
+    const where = {
+        id: orderId
+    };
+    options.where = where;
+    return Order.destroy(options);
+};
+
 module.exports = OrderController;

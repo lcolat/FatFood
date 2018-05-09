@@ -51,5 +51,13 @@ MenuController.getAll = function (search, limit, offset) {
     }
     return Menu.findAll(options);
 };
+MenuController.delete = function(menuId) {
+    const options = {};
+    const where = {
+        id: menuId
+    };
+    options.where = where;
+    return Menu.destroy(options);
+};
 
 module.exports = MenuController;
