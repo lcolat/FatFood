@@ -28,22 +28,46 @@ module.exports = function (sequelize, DataTypes) {
         if (user.changed('password')){
             let salt, hash;
             [err, salt] = await to(bcrypt.genSalt(10));
-            if(err) throw new Error(err.message);
+            if(err) TE(err.message, true);
 
             [err, hash] = await to(bcrypt.hash(user.password, salt));
-            if(err) throw new Error(err.message);
+            if(err) TE(err.message, true);
 
             user.password = hash;
         }
     });
-    User.comparePassword = async function (pw) {
+    // User.beforeSave(async (user, options) => {
+    //     user.changed('password')
+    //         .then(bcrypt.genSalt(10))
+    //         .then((salt) => {
+    //             bcrypt.hash(user.password, salt);
+    //         }).catch((err) => {
+    //         console.log(err);
+    //     });
+    //     user.password = hash;
+    // });
+    // User.comparePassword = async function (pw) {
+    //     let err, pass;
+    //     if(!this.password){
+    //         throw new Error('password not set');
+    //     }
+    //     [err, pass] = await to(bcrypt_p.compare(pw, this.password));
+    //     if(err){
+    //         throw new Error(err.message);
+    //     }
+    //     if(!pass){
+    //         throw new Error('invalid password');
+    //     }
+    //     return this;
+    // };
+    User.comparePassword = async function (pw, pwd) {
         let err, pass;
-        if(!this.password) throw new Error('password not set');
+        if(!pw) TE('password not set');
 
-        [err, pass] = await to(bcrypt_p.compare(pw, this.password));
-        if(err) throw new Error(err.message);
+        [err, pass] = await to(bcrypt_p.compare(pw, pwd));
+        if(err) TE(err);
 
-        if(!pass) throw new Error('invalid password');
+        if(!pass) TE('invalid password');
 
         return this;
     };

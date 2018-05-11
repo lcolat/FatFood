@@ -1,12 +1,14 @@
+require('./config/config');
+require('./global_functions');
 const express = require('express');
 const ModelIndex = require('./models');
 const RouteManager = require('./routes');
 ModelIndex
-.openDatabase()
-.then(_startServer)
-.catch((err) => {
-    console.error(err);
-});
+    .openDatabase()
+    .then(_startServer)
+    .catch((err) => {
+        console.error(err);
+    });
 
 // INTERNAL
 
@@ -16,7 +18,7 @@ function _startServer() {
 
     RouteManager.attach(app);
 
-    app.listen(8080, function() {
+    app.listen(CONFIG.port, function () {
         console.log('Server started on 8080...');
     });
 }

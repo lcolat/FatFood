@@ -1,7 +1,8 @@
 const ModelIndex = require('../models');
-const passwordHash = require('password-hash');
 const User = ModelIndex.User;
 const Op = ModelIndex.Sequelize.Op;
+const bcrypt = require('bcrypt');
+const bcrypt_p  = require('bcrypt-promise');
 
 const UserController = function() { };
 
@@ -13,14 +14,20 @@ UserController.add = function(login, password) {
 };
 
 UserController.findOne = function(login, password) {
-    console.log(password);
     const options = {};
+    let user = {};
     const where = {
-        login: login,
-        password: passwordHash.generate(password)
+        login: login
     };
     options.where = where;
-    return User.findOne(options);
+    user = User.findOne(options);
+    User.comparePassword(password, user.password);
+    // bcrypt.compare(password, user.password, function (err, res){
+    //     if (res) {
+    //         console.log('wololo');
+    //     }
+    // });
+    return user;
 };
 
 module.exports = UserController;

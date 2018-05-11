@@ -9,7 +9,7 @@ userRouter.use(bodyParser.json());
 userRouter.post('/', function(req, res) {
     const login = req.body.login;
     const password = req.body.password;
-    if(login === undefined || password === undefined){
+    if (login === undefined || password === undefined) {
         res.status(400).end();
         return;
     }
@@ -26,13 +26,13 @@ userRouter.post('/', function(req, res) {
 userRouter.post('/authenticate', function (req, res) {
     const login = req.body.login;
     const password = req.body.password;
-    if(login === undefined || password === undefined){
+    if (login === undefined || password === undefined) {
         res.status(400).end();
         return;
     }
     UserController.findOne(login, password)
         .then((user) => {
-            res.status(204).json(user);
+            res.json(user);
         })
         .catch((err) => {
             console.error(err);

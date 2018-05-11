@@ -1,4 +1,4 @@
-const RouteManager = function() { };
+const RouteManager = function() {};
 
 RouteManager.attach = function(app) {
     app.use('/order', require('./order'));
