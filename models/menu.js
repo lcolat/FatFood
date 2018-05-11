@@ -34,8 +34,4 @@ function _associate(models) {
         through: 'order_menu',
         foreignKey: 'menu_id'
     });
-    models.Menu.belongsTo(models.Promotion, {
-        as: 'orders',
-        foreignKey: 'menu_id'
-    });
 }

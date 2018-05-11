@@ -25,7 +25,7 @@ OrderController.addProduct = function(id, productId) {
         })
         .then((product) => {
             return order.addProduct(product);
-        })
+        });
     });
 };
 
@@ -42,7 +42,7 @@ OrderController.addMenu = function(id, menuId) {
         })
             .then((menu) => {
                 return order.addMenu(menu);
-            })
+            });
     });
 };
 

@@ -8,9 +8,9 @@ promotionRouter.use(bodyParser.json());
 
 promotionRouter.post('/', function(req, res) {
     const name = req.body.name;
-    var date = new Date(req.body.date);
+    const date = new Date(req.body.date);
     const price = req.body.price;
-    if(name === undefined || date === undefined || price === undefined){
+    if (name === undefined || date === undefined || price === undefined){
         res.status(400).end();
         return;
     }
