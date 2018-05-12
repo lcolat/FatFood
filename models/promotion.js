@@ -16,6 +16,10 @@ module.exports = function (sequelize, DataTypes) {
         date: {
             type: DataTypes.DATE,
             allowNull: false
+        },
+        menu: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false
         }
     }, {
         paranoid: true,

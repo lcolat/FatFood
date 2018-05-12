@@ -9,12 +9,15 @@ promotionRouter.use(bodyParser.json());
 promotionRouter.post('/', function(req, res) {
     const name = req.body.name;
     const date = new Date(req.body.date);
+    console.log(date);
     const price = req.body.price;
-    if (name === undefined || date === undefined || price === undefined){
+    const id = req.body.id;
+    const menu = req.body.menu;
+    if (name === undefined || date === undefined || price === undefined || id === undefined || menu === undefined ) {
         res.status(400).end();
         return;
     }
-    PromotionController.add(name, date, parseFloat(price))
+    PromotionController.add(name, date, parseFloat(price), parseInt(id), menu)
         .then((promotion) => {
             res.status(201).json(promotion);
         })

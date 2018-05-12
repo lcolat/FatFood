@@ -1,16 +1,29 @@
 const ModelIndex = require('../models');
 const Promotion = ModelIndex.Promotion;
+const Menu = ModelIndex.Menu;
+const Product = ModelIndex.Product;
 const Op = ModelIndex.Sequelize.Op;
 
 const PromotionController = function() { };
 
 
-PromotionController.add = function(name, price, date) {
-    return Promotion.create({
+PromotionController.add = function(name, price, date, id, menu) {
+    let options = {};
+    const where = {};
+    where.id = id;
+    const promotion = Promotion.create({
         name: name,
+        price: price,
         date: date,
-        price: price
+        menu: menu
     });
+    options = {id_promotion: promotion.id};
+    if(menu === true){
+        Menu.update({id_promotion: promotion.id},{id: id});
+    }else{
+        Product.update(options,where);
+    }
+    return promotion;
 };
 
 PromotionController.getAll = function (search, limit, offset) {
