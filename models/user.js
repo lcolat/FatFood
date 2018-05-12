@@ -23,53 +23,31 @@ module.exports = function (sequelize, DataTypes) {
         underscored: true,
         freezeTableName: true
     });
-    User.beforeSave(async (user, options) => {
-        let err;
-        if (user.changed('password')){
-            let salt, hash;
-            [err, salt] = await to(bcrypt.genSalt(10));
-            if(err) TE(err.message, true);
+    const hashPasswordHook = function(user, options) {
+        let saltRounds = 10;
+        return bcrypt.hash(user.password, saltRounds)
+                .then(function (hash) {
+                    user.set('password', hash);
+                }).catch( (err) => {
+                    console.log(err);
+            });
+    };
+    User.beforeCreate(hashPasswordHook);
 
-            [err, hash] = await to(bcrypt.hash(user.password, salt));
-            if(err) TE(err.message, true);
 
-            user.password = hash;
-        }
-    });
-    // User.beforeSave(async (user, options) => {
-    //     user.changed('password')
-    //         .then(bcrypt.genSalt(10))
-    //         .then((salt) => {
-    //             bcrypt.hash(user.password, salt);
-    //         }).catch((err) => {
-    //         console.log(err);
-    //     });
-    //     user.password = hash;
-    // });
-    // User.comparePassword = async function (pw) {
-    //     let err, pass;
-    //     if(!this.password){
-    //         throw new Error('password not set');
-    //     }
-    //     [err, pass] = await to(bcrypt_p.compare(pw, this.password));
-    //     if(err){
-    //         throw new Error(err.message);
-    //     }
-    //     if(!pass){
-    //         throw new Error('invalid password');
-    //     }
-    //     return this;
-    // };
-    User.comparePassword = async function (pw, pwd) {
-        let err, pass;
-        if(!pw) TE('password not set');
-
-        [err, pass] = await to(bcrypt_p.compare(pw, pwd));
-        if(err) TE(err);
-
-        if(!pass) TE('invalid password');
-
-        return this;
+    User.comparePassword = function (authPassword, dbPassword) {
+        console.log(dbPassword);
+        bcrypt.compare(authPassword, dbPassword)
+            .then(function (res) {
+                if(res === true){
+                    console.log("youuu");
+                }else {
+                    console.log("arf");
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+        });
     };
     User.getJWT = function () {
         let expiration_time = parseInt(CONFIG.jwt_expiration);

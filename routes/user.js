@@ -30,7 +30,7 @@ userRouter.post('/authenticate', function (req, res) {
         res.status(400).end();
         return;
     }
-    UserController.findOne(login, password)
+    UserController.auth(login, password)
         .then((user) => {
             res.json(user);
         })

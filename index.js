@@ -1,5 +1,4 @@
 require('./config/config');
-require('./global_functions');
 const express = require('express');
 const ModelIndex = require('./models');
 const RouteManager = require('./routes');
