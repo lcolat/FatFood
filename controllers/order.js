@@ -2,6 +2,7 @@ const ModelIndex = require('../models');
 const Order = ModelIndex.Order;
 const Product = ModelIndex.Product;
 const Menu = ModelIndex.Menu;
+const Promotion = ModelIndex.Promotion;
 const Op = ModelIndex.Sequelize.Op;
 
 const OrderController = function() { };
@@ -24,6 +25,15 @@ OrderController.addProduct = function(id, productId) {
             }
         })
         .then((product) => {
+            Promotion.find({
+                where: {
+                    id: product.get('promotion_id')
+                }
+            }).then( promotion => {
+               if(promotion.get('deleted_at') > Date.now()){
+                   product.set('price',promotion.get('price'));
+               }
+            });
             return order.addProduct(product);
         });
     });

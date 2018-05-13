@@ -33,9 +33,11 @@ module.exports = function (sequelize, DataTypes) {
 //INTERNAL
 function _associate(models) {
     models.Promotion.hasMany(models.Menu, {
-        foreignKey: 'promotion_id'
+        foreignKey: 'promotion_id',
+        onDelete: 'CASCADE'
     });
     models.Promotion.hasMany(models.Product, {
-        foreignKey: 'promotion_id'
+        foreignKey: 'promotion_id',
+        onDelete: 'CASCADE'
     });
 }

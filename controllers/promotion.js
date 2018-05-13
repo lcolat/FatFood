@@ -50,14 +50,15 @@ PromotionController.delete = function(promotionId) {
         id: promotionId
     };
     options.where = where;
-    Promotion.findOne({where : {id: id}})
-        .then( promotion => {
-            if((Promotion.get('menu') === "1")){
-                Menu.update({promotion_id: 0},{where: {id: id}});
-            }else{
-                Product.update({promotion_id: 0},{where: {id: id}});
-            }
-        });
+    console.log(promotionId);
+    // Promotion.findOne({where: {id: promotionId}})
+    //     .then( promotion => {
+    //         if(promotion.get('menu') === 1){
+    //             Menu.update({promotion_id: 0},{where: {promotion_id: promotionId}});
+    //         }else{
+    //             Product.update({promotion_id: 0},{where: {promotion_id: promotionId}});
+    //         }
+    //     });
 
     return Promotion.destroy(options);
 };
