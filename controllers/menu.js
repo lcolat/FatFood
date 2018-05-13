@@ -23,8 +23,18 @@ MenuController.addProduct = function(id, productId) {
                 id: productId
             }
         })
-        .then((product) => {
-            return menu.addProduct(product);
+        .then((menu) => {
+            Promotion.find({
+                where: {
+                    id: menu.get('promotion_id')
+                }
+            }).then( promotion => {
+                if(promotion.get('deleted_at') > Date.now()){
+                    var data = menu.set('price',promotion.get('price'));
+                }else
+                    var data = menu.get('price');
+            });
+            return order.addProduct(menu, { through: {price: data}});
         });
     });
 };

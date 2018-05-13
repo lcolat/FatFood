@@ -25,16 +25,17 @@ OrderController.addProduct = function(id, productId) {
             }
         })
         .then((product) => {
-            // Promotion.find({
-            //     where: {
-            //         id: product.get('promotion_id')
-            //     }
-            // }).then( promotion => {
-            //    if(promotion.get('deleted_at') > Date.now()){
-            //        product.set('price',promotion.get('price'));
-            //    }
-            // });
-            return order.addProduct(product);
+            Promotion.find({
+                where: {
+                   id: product.get('promotion_id')
+                }
+            }).then( promotion => {
+               if(promotion.get('deleted_at') > Date.now()){
+                   var data = product.set('price',promotion.get('price'));
+               }else
+                   var data = product.get('price');
+            });
+            return order.addProduct(product, { through: {price: data}});
         });
     });
 };
