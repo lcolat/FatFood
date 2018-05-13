@@ -34,15 +34,13 @@ module.exports = function (sequelize, DataTypes) {
     };
     User.beforeCreate(hashPasswordHook);
 
-
     User.comparePassword = function (authPassword, dbPassword) {
-        console.log(dbPassword);
         bcrypt.compare(authPassword, dbPassword)
             .then(function (res) {
                 if(res === true){
-                    console.log("youuu");
+                    return true;
                 }else {
-                    console.log("arf");
+                    return false;
                 }
             })
             .catch((err) => {
@@ -52,10 +50,6 @@ module.exports = function (sequelize, DataTypes) {
     User.getJWT = function () {
         let expiration_time = parseInt(CONFIG.jwt_expiration);
         return "Bearer "+jwt.sign({user_id:this.id}, CONFIG.jwt_encryption, {expiresIn: expiration_time});
-    };
-    User.toWeb = function (pw) {
-        let json = this.toJSON();
-        return json;
     };
 
     return User;

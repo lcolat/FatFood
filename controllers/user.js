@@ -18,11 +18,15 @@ UserController.auth = function(login, password) {
         login: login
     };
     options.where = where;
-    let user = User.findOne(options);
+    return User.findOne({where : {login: login}})
+        .then( user => {
+            if(User.comparePassword(password, user.get('password')) === true){
+                User.
+            }
+        });
     //console.log(JSON.parse(JSON.stringify(user)));
     // console.log(user.get({login: true}));
     //User.comparePassword(password, user.get(password));
-    return user;
 };
 
 module.exports = UserController;
