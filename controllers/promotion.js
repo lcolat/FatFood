@@ -11,20 +11,19 @@ PromotionController.add = function(name, price, date, id, menu) {
     let options = {};
     const where = {};
     where.id = id;
-    const promotion = Promotion.create({
+    //options = {id_promotion: promotion.id};
+    return Promotion.create({
         name: name,
         price: price,
         date: date,
         menu: menu
+    }).then( promotion => {
+        if(menu === "true"){
+            Menu.update({promotion_id: promotion.get('id')},{where: {id: id}});
+        }else{
+            Product.update({promotion_id: promotion.get('id')},{where: {id: id}});
+        }
     });
-    options = {id_promotion: promotion.id};
-    console.log(promotion.id);
-    if(menu === true){
-        Menu.update({promotion_id: promotion.id},{where: {id: id}});
-    }else{
-        Product.update({promotion_id: promotion.id},{where: {id: id}});
-    }
-    return promotion;
 };
 
 PromotionController.getAll = function (search, limit, offset) {
