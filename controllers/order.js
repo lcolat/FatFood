@@ -14,6 +14,7 @@ OrderController.add = function(payment) {
 };
 
 OrderController.addProduct = function(id, productId) {
+    let data;
     return Order.find({
         where: {
             id:id
@@ -30,17 +31,19 @@ OrderController.addProduct = function(id, productId) {
                    id: product.get('promotion_id')
                 }
             }).then( promotion => {
-               if(promotion.get('deleted_at') > Date.now()){
-                   var data = product.set('price',promotion.get('price'));
-               }else
-                   var data = product.get('price');
+               if(promotion.get('date') > Date.now()){
+                   data = promotion.get('price');
+               }else{
+                   data = product.get('price');
+               }
+                return order.addProduct(product, { through: {price: data}});
             });
-            return order.addProduct(product, { through: {price: data}});
         });
     });
 };
 
 OrderController.addMenu = function(id, menuId) {
+    let data;
     return Order.find({
         where: {
             id:id
@@ -51,9 +54,20 @@ OrderController.addMenu = function(id, menuId) {
                 id: menuId
             }
         })
-            .then((menu) => {
-                return order.addMenu(menu, {  through: {price: 1.2}});
+        .then((menu) => {
+            Promotion.find({
+                where: {
+                    id: menu.get('promotion_id')
+                }
+            }).then( promotion => {
+                if(promotion.get('date') > Date.now()){
+                    data = promotion.get('price');
+                }else{
+                    data = menu.get('price');
+                }
+                return order.addMenu(menu, {  through: {price: data}});
             });
+        });
     });
 };
 
