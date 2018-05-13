@@ -25,15 +25,15 @@ OrderController.addProduct = function(id, productId) {
             }
         })
         .then((product) => {
-            Promotion.find({
-                where: {
-                    id: product.get('promotion_id')
-                }
-            }).then( promotion => {
-               if(promotion.get('deleted_at') > Date.now()){
-                   product.set('price',promotion.get('price'));
-               }
-            });
+            // Promotion.find({
+            //     where: {
+            //         id: product.get('promotion_id')
+            //     }
+            // }).then( promotion => {
+            //    if(promotion.get('deleted_at') > Date.now()){
+            //        product.set('price',promotion.get('price'));
+            //    }
+            // });
             return order.addProduct(product);
         });
     });
@@ -51,7 +51,7 @@ OrderController.addMenu = function(id, menuId) {
             }
         })
             .then((menu) => {
-                return order.addMenu(menu);
+                return order.addMenu(menu, {  through: {price: 1.2}});
             });
     });
 };

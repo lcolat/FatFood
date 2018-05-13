@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    const Order_menu = sequelize.define('Order', {
+    const OrderProduct = sequelize.define('order_product', {
         id: {
             type: DataTypes.BIGINT,
             primaryKey: true,
@@ -7,21 +7,12 @@ module.exports = function (sequelize, DataTypes) {
         },
         price: {
             type: DataTypes.FLOAT,
-            allowNull: false
+            allowNull: true
         }
     }, {
         paranoid: true,
         underscored: true,
         freezeTableName: true
     });
-    Order_menu.associate = _associate;
-    return Order_menu;
+    return OrderProduct;
 };
-
-//INTERNAL
-function _associate(models) {
-    models.Order_menu.belongsToMany(models.Order, {
-        as: 'orders',
-        foreignKey: 'menu_id'
-    });
-}
