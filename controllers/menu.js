@@ -23,9 +23,9 @@ MenuController.addProduct = function(id, productId) {
                 id: productId
             }
         })
-            .then((product) => {
-                return menu.addProduct(product);
-            })
+        .then((product) => {
+            return menu.addProduct(product);
+        });
     });
 };
 

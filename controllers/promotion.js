@@ -18,10 +18,11 @@ PromotionController.add = function(name, price, date, id, menu) {
         menu: menu
     });
     options = {id_promotion: promotion.id};
+    console.log(promotion.id);
     if(menu === true){
-        Menu.update({id_promotion: promotion.id},{id: id});
+        Menu.update({promotion_id: promotion.id},{where: {id: id}});
     }else{
-        Product.update(options,where);
+        Product.update({promotion_id: promotion.id},{where: {id: id}});
     }
     return promotion;
 };
