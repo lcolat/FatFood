@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const controllers = require('../controllers');
 const UserController = controllers.UserController;
-const Utils = require('../utils/utils');
 const userRouter = express.Router();
 userRouter.use(bodyParser.json());
 
@@ -13,7 +12,7 @@ userRouter.post('/', function(req, res) {
         res.status(400).end();
         return;
     }
-    Utils.verifyToken(req, res)
+    UserController.verifyToken(req, res)
         .then( (good) => {
             UserController.add(login, password)
                 .then((user) => {
