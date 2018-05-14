@@ -13,20 +13,29 @@ UserController.add = function(login, password) {
 
 UserController.auth = function(login, password) {
     const options = {raw: true};
-    // let user = {};
+    let token;
+    let response = {};
     const where = {
         login: login
     };
     options.where = where;
     return User.findOne({where : {login: login}})
         .then( user => {
-            if(User.comparePassword(password, user.get('password')) === true){
-                User.
-            }
+            return User.comparePassword(password, user.get('password')).then( (connexion) => {
+                if(connexion === true){
+                    token = User.getToken();
+                    response = {
+                        "status": "Logged in",
+                        "token": token
+                    };
+                }else{
+                    response = {
+                        "status": "Not logged"
+                    };
+                }
+                return response;
+            });
         });
-    //console.log(JSON.parse(JSON.stringify(user)));
-    // console.log(user.get({login: true}));
-    //User.comparePassword(password, user.get(password));
 };
 
 module.exports = UserController;

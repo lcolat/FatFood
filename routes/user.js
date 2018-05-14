@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const controllers = require('../controllers');
 const UserController = controllers.UserController;
-
+const Utils = require('../utils/utils');
 const userRouter = express.Router();
 userRouter.use(bodyParser.json());
 
@@ -13,14 +13,19 @@ userRouter.post('/', function(req, res) {
         res.status(400).end();
         return;
     }
-    UserController.add(login, password)
-        .then((user) => {
-            res.status(201).json(user);
-        })
-        .catch((err) => {
-            console.error(err);
-            res.status(500).end();
-        });
+    Utils.verifyToken(req, res)
+        .then( (good) => {
+            UserController.add(login, password)
+                .then((user) => {
+                    res.status(201).json(user);
+                })
+                .catch((err) => {
+                    console.error(err);
+                    res.status(500).end();
+                });
+
+    });
+
 });
 
 userRouter.post('/authenticate', function (req, res) {
@@ -30,9 +35,10 @@ userRouter.post('/authenticate', function (req, res) {
         res.status(400).end();
         return;
     }
+
     UserController.auth(login, password)
         .then((user) => {
-            res.json(user);
+            res.status(200).json(user);
         })
         .catch((err) => {
             console.error(err);

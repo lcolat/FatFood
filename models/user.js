@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt');
-const bcrypt_p  = require('bcrypt-promise');
 const jwt = require('jsonwebtoken');
 
 module.exports = function (sequelize, DataTypes) {
@@ -35,7 +34,7 @@ module.exports = function (sequelize, DataTypes) {
     User.beforeCreate(hashPasswordHook);
 
     User.comparePassword = function (authPassword, dbPassword) {
-        bcrypt.compare(authPassword, dbPassword)
+        return bcrypt.compare(authPassword, dbPassword)
             .then(function (res) {
                 if(res === true){
                     return true;
@@ -47,9 +46,9 @@ module.exports = function (sequelize, DataTypes) {
                 console.error(err);
         });
     };
-    User.getJWT = function () {
+    User.getToken = function () {
         let expiration_time = parseInt(CONFIG.jwt_expiration);
-        return "Bearer "+jwt.sign({user_id:this.id}, CONFIG.jwt_encryption, {expiresIn: expiration_time});
+        return jwt.sign({user_id:this.id}, CONFIG.jwt_encryption, {expiresIn: expiration_time});
     };
 
     return User;
