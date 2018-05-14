@@ -36,6 +36,8 @@ UserController.auth = function(login, password) {
                 }
                 return response;
             });
+        }).catch((err) => {
+            return {"status": "Not logged"};
         });
 };
 

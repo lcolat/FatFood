@@ -6,13 +6,13 @@ const userRouter = express.Router();
 userRouter.use(bodyParser.json());
 
 userRouter.post('/', function(req, res) {
-    const login = req.body.login;
-    const password = req.body.password;
-    if (login === undefined || password === undefined) {
-        res.status(400).end();
-        return;
-    }
     if(UserController.verifyToken(req.headers['x-access-token']) === true){
+        const login = req.body.login;
+        const password = req.body.password;
+        if (login === undefined || password === undefined) {
+            res.status(400).end();
+            return;
+        }
         UserController.add(login, password)
             .then((user) => {
                 res.status(201).json(user);

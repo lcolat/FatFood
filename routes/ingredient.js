@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const controllers = require('../controllers');
 const IngredientController = controllers.IngredientController;
+const UserController = controllers.UserController;
 
 const ingredientRouter = express.Router();
 ingredientRouter.use(bodyParser.json());
@@ -13,14 +14,19 @@ ingredientRouter.post('/', function(req, res) {
         res.status(400).end();
         return;
     }
-    IngredientController.add(name, parseInt(quantity))
-        .then((ingredient) => {
-            res.status(201).json(ingredient);
-        })
-        .catch((err) => {
-            console.error(err);
-            res.status(500).end();
-        });
+    if(UserController.verifyToken(req.headers['x-access-token']) === true){
+        IngredientController.add(name, parseInt(quantity))
+            .then((ingredient) => {
+                res.status(201).json(ingredient);
+            })
+            .catch((err) => {
+                console.error(err);
+                res.status(500).end();
+            });
+    }else{
+        res.status(403).end();
+    }
+
 });
 
 

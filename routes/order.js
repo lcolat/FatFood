@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const controllers = require('../controllers');
 const OrderController = controllers.OrderController;
+const UserController = controllers.UserController;
 
 const orderRouter = express.Router();
 orderRouter.use(bodyParser.json());
@@ -26,14 +27,19 @@ orderRouter.post('/', function(req, res) {
 orderRouter.get('/', function (req, res) {
     const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
     const offset = req.query.offset ? parseInt(req.query.offset) : undefined;
-    OrderController.getAll(req.query.name, limit, offset)
-        .then((orders) => {
-            res.json(orders);
-        })
-        .catch((err) => {
-            console.error(err);
-            res.status(500).end();
-        });
+    if(UserController.verifyToken(req.headers['x-access-token']) === true){
+        OrderController.getAll(req.query.name, limit, offset)
+            .then((orders) => {
+                res.json(orders);
+            })
+            .catch((err) => {
+                console.error(err);
+                res.status(500).end();
+            });
+    }else{
+        res.status(403).end();
+    }
+
 });
 
 orderRouter.put('/:id/addproduct/:productId', function (req, res) {
