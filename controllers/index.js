@@ -3,6 +3,6 @@ module.exports = {
     ProductController: require('./product'),
     IngredientController: require('./ingredient'),
     MenuController: require('./menu'),
-    PromotionController: require('./promotion')
-
+    PromotionController: require('./promotion'),
+    UserController: require('./user')
 };

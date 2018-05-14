@@ -12,9 +12,9 @@ ModelIndex.getModel = function (modelName) {
     return this[modelName];
 };
 
-const sequelize = new Sequelize('Fat-Food', 'root', '', {
-    host: 'localhost',
-    dialect: 'mysql',
+const sequelize = new Sequelize(CONFIG.db_name, CONFIG.db_user, CONFIG.db_password, {
+    host: CONFIG.db_host,
+    dialect: CONFIG.db_dialect,
     operatorsAliases: Op
 });
 
@@ -38,7 +38,7 @@ Object.keys(ModelIndex)
 
 ModelIndex.sequelize = sequelize;
 ModelIndex.Sequelize = Sequelize;
-ModelIndex.openDatabase = function() {
+ModelIndex.openDatabase = function () {
     return sequelize
         .authenticate()
         .then(() => sequelize.sync());
