@@ -62,4 +62,15 @@ orderRouter.put('/:id/addmenu/:menuId', function (req, res) {
         });
 });
 
+orderRouter.delete('/:id', function (req, res) {
+    const orderId = parseInt(req.params.id);
+    OrderController.delete(orderId)
+        .then((order) => {
+            res.status(200).json(order.deletedAt);
+        })
+        .catch((err) => {
+            res.status(500).end();
+        });
+});
+
 module.exports = orderRouter;
