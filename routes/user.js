@@ -12,18 +12,18 @@ userRouter.post('/', function(req, res) {
         res.status(400).end();
         return;
     }
-    UserController.verifyToken(req, res)
-        .then( (good) => {
-            UserController.add(login, password)
-                .then((user) => {
-                    res.status(201).json(user);
-                })
-                .catch((err) => {
-                    console.error(err);
-                    res.status(500).end();
-                });
-
-    });
+    if(UserController.verifyToken(req.headers['x-access-token']) === true){
+        UserController.add(login, password)
+            .then((user) => {
+                res.status(201).json(user);
+            })
+            .catch((err) => {
+                console.error(err);
+                res.status(500).end();
+            });
+    }else{
+        res.status(403).end();
+    }
 
 });
 
