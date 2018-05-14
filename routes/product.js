@@ -25,6 +25,22 @@ productRouter.post('/', function(req, res) {
         });
 });
 
+productRouter.post('/update', function(req, res) {
+    const name = req.body.name;
+    const price = req.body.price;
+    if(name === undefined || price === undefined){
+        res.status(400).end();
+        return;
+    }
+    ProductController.update(name, parseFloat(price))
+        .then((product) => {
+            res.status(201).json({"New price" : price});
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).end();
+        });
+});
 
 productRouter.get('/', function (req, res) {
     const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
