@@ -12,6 +12,16 @@ MenuController.add = function(name, price) {
         price: price
     });
 };
+
+MenuController.update = function(name, price) {
+    return Menu.update({
+            price: price
+        },
+        {
+            where: {name: name}
+        });
+};
+
 MenuController.addProduct = function(id, productId) {
     return Menu.find({
         where: {
@@ -23,18 +33,8 @@ MenuController.addProduct = function(id, productId) {
                 id: productId
             }
         })
-        .then((menu) => {
-            Promotion.find({
-                where: {
-                    id: menu.get('promotion_id')
-                }
-            }).then( promotion => {
-                if(promotion.get('deleted_at') > Date.now()){
-                    var data = menu.set('price',promotion.get('price'));
-                }else
-                    var data = menu.get('price');
-            });
-            return order.addProduct(menu, { through: {price: data}});
+        .then((product) => {
+            return menu.addProduct(product);
         });
     });
 };

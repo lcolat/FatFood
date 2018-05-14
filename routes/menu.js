@@ -23,6 +23,23 @@ menuRouter.post('/', function(req, res) {
         });
 });
 
+menuRouter.post('/update', function(req, res) {
+    const name = req.body.name;
+    const price = req.body.price;
+    if(name === undefined || price === undefined){
+        res.status(400).end();
+        return;
+    }
+    MenuController.update(name, parseFloat(price))
+        .then((menu) => {
+            res.status(201).json({"New price" : price});
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).end();
+        });
+});
+
 menuRouter.put('/:id/addproduct/:productId', function (req, res) {
     const id = parseInt(req.params.id);
     const productId = parseInt(req.params.productId);
